@@ -1,0 +1,313 @@
+Rocketseat – React
+CAPÍTULO 1
+CONFIGURANDO AMBIENTE
+Primeira coisa que faço quando vou utilizar js nos projetos é efetuar o comando para criar o arquivo JSON: yarn init –y
+No package.json constam as informações principais do nosso projeto. O mais importante são as dependências do projeto (código de terceiros que instalamos dentro da nossa aplicação, bibliotecas) 
+yarn –v: baixa as dependências do projeto
+Instalo o react com o comando: yarn add react 
+Node Modules: Armazena o código das dependências que instalamos na nossa aplicação. O próprio react possui outras dependências. 
+yarn add react-dom – é a forma que temos de trabalhar com React na Web. Árvore de elementos da nossa aplicação. É o HTML convertido em uma sintaxe de objeto. 
+Crio a pasta src que é onde ficará todo o código da aplicação, principalmente o JS. Crio também a pasta public, que é qualquer arquivo que seja acessado pelo meio externo. 
+No public crio o arquivo index.html. Crio html:5 dentro desse arquivo 
+
+Babel: biblioteca que converte o código para uma maneira que todos os browsers e todo ambiente da aplicação consiga entender todos os códigos. yarn add @babel/core @babel/cli @babel/preset-env –D. O D é colocado no final pois essa conversão será feita antes de a aplicação ir para a produção, depois disso já não preciso da biblioteca pois a conversão já foi feita. Crio um arquivo chamado babel.config.js, nesse arquivo exporto as configs do babel, exemplo na pasta do curso. 
+- Na pasta src crio o arquivo index.js
+Dou este comando no prompt, lembrando que coloquei um código no arquivo index criado. yarn babel src/index.js --out-file dist/bundle.js (este comando serve para criar uma pasta chamada dist e um arquivo chamado bundle). Fazendo isso aparecerá no arquivo a conversão do código em Babel, dificilmente iremos entende-lo. Nunca trabalharemos nesse arquivo. 
+- yarn add @babel/preset-react –D – dou esse comando para que o sistema entenda o meu código react dentro dos arquivos 
+No arquivo babel.config.js incluo uma linha com ‘@babel/preset-react’
+- yarn add @babel-preset-react –D
+Extensão jsx, já fica com o ícone do react. JSX: html dentro de React. O bundle preciso manter como js pois o browser não entende arquivos jsx.
+
+Webpack
+
+Serve para importar arquivos CSS, SASS, qualquer tipo de arquivo. Ele faz as configurações de como tratar cada um dos arquivos. Vai pegar os arquivos e converter para formatos que são entendíveis pelo browser. 
+Comando de instalação: yarn add webpack webpack-cli –D.
+Crio o arquivo webpack.config.js.
+O path dentro do arquivo webpack serve para rodar o caminho do arquivo js, colocamos require também pois é assim que o node entende. 	
+Dou esse comando yarn add babel-loader –D para conseguir incluir o use no arquivo do webpack, que significa que o browser precisa carregar o que está no Babel. 
+Crio o arquivo app.jsx, coloco o que quero em html, vou no arquivo index.jsx e importo a função que fiz no app.jsx. 
+Yarn webpack – comando para testar o webpack
+
+Dentro do html se cria uma div com id:root. 
+- yarn add html-webpack-plugin –D: adiciona uma dependência no webpack que eu não preciso ficar atualizando o nome do arquivo que roda o html e teria o caminho no index.html da pasta public. 
+Erro do html-webpack-plugin foi resolvido com o comando abaixo: 
+Npm config delete proxy. Com esse comando pegou o padrão proxy. Esse comando limpou a proxy do projeto. (pesquisar sobre esse comando)
+
+- yarn add webpack-dev-server –D: serve para baixar um pacote que atualiza a tela automaticamente, toda vez que eu atualizo o meu código. Assim o webpack observa as alterações. 
+Incluo essa parte no arquivo do webpack: (caminho do meu arquivo index.html)
+ 
+
+Depois dou o comando yarn webpack serve no terminal.
+
+Source Maps
+
+Forma de visualizar o código mesmo estando embaralhado no arquivo bundle.
+Vou no arquivo no webpack, abaixo de mode, coloco: 
+devtool: 'eval-source-map',
+
+Ambiente de Dev e Produção
+
+Edito essa parte do arquivo webpack 
+const isDevelopment = process.env.NODE_ENV !== 'production' 
+
+module.exports = {
+    mode: isDevelopment ? 'development' : 'production',
+    devtool: isDevelopment ? 'eval-source-map' : 'source-map',
+
+vou no terminal e crio a variável de desenvolvimento
+comando: yarn add cross-env –D
+No arquivo package.json vou criar as dependências, através do “scripts”.
+  "scripts": {
+    "dev": "webpack serve",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+Build: produção.
+Coloco aqui para que execute sem precisar colocar o yarn na frente. Quando for rodar coloco no terminal: yarn dev (se for em dev).
+
+	Importando arquivos CSS
+Crio a pasta styles dentro de src, crio um arquivo css.
+Vou no arquivo do webpack, abaixo de rules, coloco as infos conforme abaixo. 
+Mas antes dou os comandos yarn add style-loader 
+yarn add css-loader
+importo o arquivo css no App.
+import './styles/global.css'
+
+            {
+                // a expressão abaixo verifica todos os arquivos que terminam em css
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: ['style-loader', 'css-loader'],
+            }
+
+Yarn dev para sempre atualizar a pg.
+
+Sass
+
+yarn add sass-loader –D  e yarn add node-sass -D
+vou  no arquivo webpack e incluo na parte do css, o sass
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+
+Mudo test para scss, mudo o nome do arquivo css para scss e no arquivo App importo o arquivo com final scss. 
+
+CONCEITOS IMPORTANTES
+
+Componente
+
+Componente é como se fossem as tags no HTML. Formas de organizar a aplicação. 
+export function App() {
+    return <h1>Hello ReactJS</h1>
+}
+
+
+Acima já é um componente, uma função que retorna um HTML. 
+Sempre que for um componente, colocar o nome do arquivo com letra maiúscula, e geralmente dentro dele tem uma única função. 
+Dentro do html posso puxar o que vem do js com {}.
+
+Propriedades
+Passo um atributo para a tag, exemplo tag a com href, eu estou mudando o comportamento da tag colocando o link que quero que carregue.
+Posso acessar as propriedades de um componente através de um argumento (argumento é o que coloco dentro dos parênteses da função)
+Consigo mandar informação do componente pai RepositoryList para o componente filho, Repository Item, exemplo:
+<RepositoryItem repository="unform2"/>
+
+Acesso ele no Repository Item desse modo: 
+export function RepositoryItem(props) {
+    return (
+            <li>
+                <strong>{props.repository}</strong>
+                <p>Forms in React</p>
+                <a href="">Acessar repositório</a>
+            </li>
+     );
+}
+
+Coloco mais infos  nessa parte:
+<RepositoryItem repository="unform2"/>
+<RepositoryItem repository="unform2" description="Forms in React" link="https://github.com/"/>
+
+Quando tem bastante texto, quebro a linha. 
+Estado do componente
+
+Criei o componente Counter(contador).
+No APP para incluir mais de um componente, coloco um fragmento englobando eles, exemplo:
+export function App() {
+    return (
+    <> 
+    <RepositoryList /> 
+    <Counter/>
+    </>
+    )
+}
+
+Variáveis de estado (useState): o React olha certo tipo de variável e apenas monitora esse tipo de variável, para ver se elas mudaram. Lembrar sempre de importar useState. UseState = Hook.
+Set é o que deixa mudar o valor da variável. 
+
+Imutabilidade
+
+Não incluo o novo “usuário” dentro do mesmo array que já existe, crio um novo com a inclusão. 
+Crio um novo espaço na memória contendo a nova informação, não altero o que já existe.  
+Fast Refresh no Webpack
+
+Usando o webpack dev server, sempre que mudamos algo no código, as variáveis são zeradas, exemplo, caso tenha um contador que eu tenha clicado oito vezes, quandovoltar na tela, estará zerado, e isso não é tão assertivo quando tenho muitos processos pra chegar em determinada tela do site (como por exemplo um e-commerce, se quiser testar o carrinho tem todo um caminho para chegar até ele).
+Pego o comando para baixar no google. 
+Importo no arquivo webpack
+
+    plugins: [
+        isDevelopment && new ReactRefreshWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'public', 'index.html'),
+        })
+    ].filter(Boolean),
+Coloco esse .filter no final pois caso seja falso, não seja em ambiente de dev, esse retorno falso não influencie na aplicação. Coloco hot: true, no devServer. Edito também o rules. 
+
+    module: {
+        rules: [
+            {
+                // a expressão abaixo verifica todos os arquivos que terminam em jsx
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader', 
+                    options: {
+                        plugins: [
+                            isDevelopment && require.resolve('react-refresh/babel')
+                        ].filter(Boolean)
+                    }
+                } 
+            },
+
+Arquivo contador não será mais usado daqui pra frente, por isso tirei a chamada do arquivo APP. 
+CHAMADAS HTTP
+Estilização da listagem
+section.repository-list {
+  margin: 40px;
+  h1 {
+    margin-bottom: 16px;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    // faço desse modo para ele considerar até o último elemento que tem um li antes
+    & + li {
+      margin-top: 20px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #444;
+      margin-top: 8px;
+    }
+
+    a{
+        display: inline-block;
+        margin-top: 16px;
+        text-decoration: none;
+    }
+  }
+}
+
+Utilizando UseEffect (Hook)
+
+useState e UseEffect são os hooks que mais utilizaremos no React. 
+
+UseEffect serve para disparar uma função quando algo acontecer na minha aplicação.
+Exemplo:
+
+    useEffect(() => {
+
+    }, [repositories]);
+
+Quero que tal ação seja realizada quando a variável repositories mudar. Se eu passar esse array vazio, essa função vai executar apenas uma vez, quando carregar o componente.
+
+TOMAR MUITO CUIDADO, não esquecer de por essa parte sempre que usar useEffect: 
+    }, [repositories]);
+
+E não mudar a variável dentro do useEffect também. 
+.forEach(): passa por cada elemento de um array. 
+.map(): passa por cada elemento de um array e retorna alguma coisa. 
+USANDO TYPESCRIPT
+Fundamentos do TypeScript
+Coloco tipagem nas variáveis, assim ele não aceita qualquer coisa, linha 2 à 6. Se alguma não for obrigatória, coloco o ?:. 
+Sempre que tiver uma variável e colocar : e o tipo, o sistema aceita, exemplo linha 10.
+
+ 
+Typescript ajuda com sua inteligência com sugestões na hora de preencher o código. 
+TypeScript no React
+Dou o comando yarn add typescript –D, depois dou o comando yarn tsc –init (este comando cria o arquivo tsconfig.json).
+No arquivo tsconfig.json descomento  algumas linhas e o código vai ficar assim:
+
+{
+  "compilerOptions": {
+    "lib": ["dom", "DOM.Iterable", "esnext"],                                        
+    "jsx": "react-jsx",                                
+    "module": "commonjs",                              
+    "moduleResolution": "node",      
+    "resolveJsonModule": true,  
+    "allowJs": true,                         
+    "noEmit": true,               
+    "isolatedModules": true, 
+    "allowSyntheticDefaultImports": true,             
+    "esModuleInterop": true,                             
+    "forceConsistentCasingInFileNames": true,            
+    "strict": true,                                     
+    "skipLibCheck": true                               
+  }, 
+  "include": ["src"]
+}
+
+Depois dou o comando yarn add @babel/preset-typescript –D
+No babel adiciono typescript.  
+        '@babel/preset-typescript',
+
+Edito o arquivo webpack:
+test: /\.(j|t)sx$/,
+aqui estou informando que os arquivos podem ser ou j ou tsx. 
+Em extensions adiciono ts e tsx
+extensions: ['.js', '.jsx', 'ts', 'tsx'],
+
+entry mudo para index.tsx
+    entry: path.resolve(__dirname, 'src', 'index.tsx'),
+
+Componentes com TypeScript
+
+Mudo a extensão do App para tsx.
+Mudo a extensão do RepositoryItem para tsx. Se der erro na propriedade (props), incluo a interface e declaro ela nos () da função, aí a props vem no formato que defini na interface. 
+interface RepositoryItemProps {
+    repository: {
+        name: string;
+        description: string;
+        html_url: string;
+    }
+
+}
+
+export function RepositoryItem(props: RepositoryItemProps) {
+
+mudo RepositoryList para tsx também. 
+Incluo interface também no RepositoryList: 
+interface Repository {
+    name: string;
+    description: string;
+    html_url: string;
+}
+
+Quando uso UseState, preciso passar qual o tipo do estado, neste caso uso <> antes dos (). Caso seja uma lista, preciso por [] depois do <Repository>, ficando assim: <Repository[]>([])
+export function RepositoryList() {
+
+const [repositories, setRepositories] = useState<Repository[]>([]);
+
+
+Utilizando React DevTools
+
+Vou nas extensões do browser e procuro por React Developer Tools, baixo ela, e irá aparecer um ícone no canto superior direito, sempre que ele ficar azul é porque determinado site usa React.  
+No console tem uma aba componentes em que consigo ver mais detalhes dos componentes usados. 
+
+Desafio 1 – Conceitos de React
+
+<input type="text" placeholder="Adicionar novo todo" 
+ onChange={(e) => setNewTaskTitle(e.target.value)}   value={newTaskTitle}/>
+
+onChange e value: componentes controlados. Valor do input é controlado pelo react e vai salvando no estado os valores. 
+Id random: número aleatório. Math.random() cria um número aleatório.
