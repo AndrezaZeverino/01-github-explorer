@@ -1,39 +1,74 @@
 Rocketseat – React
+
 CAPÍTULO 1
+
 CONFIGURANDO AMBIENTE
+
 Primeira coisa que faço quando vou utilizar js nos projetos é efetuar o comando para criar o arquivo JSON: yarn init –y
-No package.json constam as informações principais do nosso projeto. O mais importante são as dependências do projeto (código de terceiros que instalamos dentro da nossa aplicação, bibliotecas) 
-yarn –v: baixa as dependências do projeto
+
+No package.json constam as informações principais do nosso projeto. O mais importante são as dependências do projeto 
+(código de terceiros que instalamos dentro da nossa aplicação, bibliotecas) yarn –v: baixa as dependências do projeto
+
 Instalo o react com o comando: yarn add react 
-Node Modules: Armazena o código das dependências que instalamos na nossa aplicação. O próprio react possui outras dependências. 
-yarn add react-dom – é a forma que temos de trabalhar com React na Web. Árvore de elementos da nossa aplicação. É o HTML convertido em uma sintaxe de objeto. 
-Crio a pasta src que é onde ficará todo o código da aplicação, principalmente o JS. Crio também a pasta public, que é qualquer arquivo que seja acessado pelo meio externo. 
+
+Node Modules: Armazena o código das dependências que instalamos na nossa aplicação. O próprio react possui outras 
+dependências. 
+
+yarn add react-dom – é a forma que temos de trabalhar com React na Web. Árvore de elementos da nossa aplicação. 
+É o HTML convertido em uma sintaxe de objeto. 
+
+Crio a pasta src que é onde ficará todo o código da aplicação, principalmente o JS. Crio também a pasta public, que é 
+qualquer arquivo que seja acessado pelo meio externo. 
 No public crio o arquivo index.html. Crio html:5 dentro desse arquivo 
 
-Babel: biblioteca que converte o código para uma maneira que todos os browsers e todo ambiente da aplicação consiga entender todos os códigos. yarn add @babel/core @babel/cli @babel/preset-env –D. O D é colocado no final pois essa conversão será feita antes de a aplicação ir para a produção, depois disso já não preciso da biblioteca pois a conversão já foi feita. Crio um arquivo chamado babel.config.js, nesse arquivo exporto as configs do babel, exemplo na pasta do curso. 
+Babel: biblioteca que converte o código para uma maneira que todos os browsers e todo ambiente da aplicação consiga 
+entender todos os códigos. yarn add @babel/core @babel/cli @babel/preset-env –D. O D é colocado no final pois essa 
+conversão será feita antes de a aplicação ir para a produção, depois disso já não preciso da biblioteca pois a conversão 
+já foi feita. Crio um arquivo chamado babel.config.js, nesse arquivo exporto as configs do babel, exemplo na pasta do curso. 
 - Na pasta src crio o arquivo index.js
-Dou este comando no prompt, lembrando que coloquei um código no arquivo index criado. yarn babel src/index.js --out-file dist/bundle.js (este comando serve para criar uma pasta chamada dist e um arquivo chamado bundle). Fazendo isso aparecerá no arquivo a conversão do código em Babel, dificilmente iremos entende-lo. Nunca trabalharemos nesse arquivo. 
+
+Dou este comando no prompt, lembrando que coloquei um código no arquivo index criado. 
+yarn babel src/index.js --out-file dist/bundle.js (este comando serve para criar uma pasta chamada dist e um arquivo 
+chamado bundle). Fazendo isso aparecerá no arquivo a conversão do código em Babel, dificilmente iremos entende-lo. Nunca 
+trabalharemos nesse arquivo. 
+
 - yarn add @babel/preset-react –D – dou esse comando para que o sistema entenda o meu código react dentro dos arquivos 
+
 No arquivo babel.config.js incluo uma linha com ‘@babel/preset-react’
+
 - yarn add @babel-preset-react –D
+
 Extensão jsx, já fica com o ícone do react. JSX: html dentro de React. O bundle preciso manter como js pois o browser não entende arquivos jsx.
 
 Webpack
 
-Serve para importar arquivos CSS, SASS, qualquer tipo de arquivo. Ele faz as configurações de como tratar cada um dos arquivos. Vai pegar os arquivos e converter para formatos que são entendíveis pelo browser. 
+Serve para importar arquivos CSS, SASS, qualquer tipo de arquivo. Ele faz as configurações de como tratar cada um dos 
+arquivos. Vai pegar os arquivos e converter para formatos que são entendíveis pelo browser. 
+
 Comando de instalação: yarn add webpack webpack-cli –D.
+
 Crio o arquivo webpack.config.js.
-O path dentro do arquivo webpack serve para rodar o caminho do arquivo js, colocamos require também pois é assim que o node entende. 	
-Dou esse comando yarn add babel-loader –D para conseguir incluir o use no arquivo do webpack, que significa que o browser precisa carregar o que está no Babel. 
+
+
+O path dentro do arquivo webpack serve para rodar o caminho do arquivo js, colocamos require também pois é assim que o node
+ entende. 	
+Dou esse comando yarn add babel-loader –D para conseguir incluir o use no arquivo do webpack, que significa que o 
+browser precisa carregar o que está no Babel. 
+
 Crio o arquivo app.jsx, coloco o que quero em html, vou no arquivo index.jsx e importo a função que fiz no app.jsx. 
 Yarn webpack – comando para testar o webpack
 
 Dentro do html se cria uma div com id:root. 
-- yarn add html-webpack-plugin –D: adiciona uma dependência no webpack que eu não preciso ficar atualizando o nome do arquivo que roda o html e teria o caminho no index.html da pasta public. 
-Erro do html-webpack-plugin foi resolvido com o comando abaixo: 
-Npm config delete proxy. Com esse comando pegou o padrão proxy. Esse comando limpou a proxy do projeto. (pesquisar sobre esse comando)
 
-- yarn add webpack-dev-server –D: serve para baixar um pacote que atualiza a tela automaticamente, toda vez que eu atualizo o meu código. Assim o webpack observa as alterações. 
+- yarn add html-webpack-plugin –D: adiciona uma dependência no webpack que eu não preciso ficar atualizando o nome do 
+arquivo que roda o html e teria o caminho no index.html da pasta public. 
+
+Erro do html-webpack-plugin foi resolvido com o comando abaixo: 
+Npm config delete proxy. Com esse comando pegou o padrão proxy. Esse comando limpou a proxy do projeto. 
+(pesquisar sobre esse comando)
+
+- yarn add webpack-dev-server –D: serve para baixar um pacote que atualiza a tela automaticamente, toda vez que eu 
+atualizo o meu código. Assim o webpack observa as alterações. 
 Incluo essa parte no arquivo do webpack: (caminho do meu arquivo index.html)
  
 
@@ -62,11 +97,15 @@ No arquivo package.json vou criar as dependências, através do “scripts”.
     "build": "cross-env NODE_ENV=production webpack"
   },
 Build: produção.
+
 Coloco aqui para que execute sem precisar colocar o yarn na frente. Quando for rodar coloco no terminal: yarn dev (se for em dev).
 
-	Importando arquivos CSS
+Importando arquivos CSS
+
 Crio a pasta styles dentro de src, crio um arquivo css.
+
 Vou no arquivo do webpack, abaixo de rules, coloco as infos conforme abaixo. 
+
 Mas antes dou os comandos yarn add style-loader 
 yarn add css-loader
 importo o arquivo css no App.
